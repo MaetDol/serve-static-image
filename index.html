@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <style>img {display: inline-block; height: 120px; margin: 8px;} </style>
+  <div id="root"></div>
+
+  <script>
+    function el(tag, attrs={}) {
+      const elem = document.createElement( tag );
+      Object.entries( attrs ).forEach(([k, v]) => 
+        typeof elem[k] === 'function' ? elem[k](v) : elem[k] = v
+      );
+      return elem;
+    }
+    
+    let id = 0;
+    function loadImages() {
+      const img = el('img', {
+        src: `imgs/${id++}.jpg`,
+        onload: () => {
+          document.querySelector('#root').appendChild( img );
+          loadImages()
+        },
+      });
+    }
+    loadImages();
+  </script>
+
+</body>
+</html>
